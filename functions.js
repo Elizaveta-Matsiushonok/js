@@ -27,7 +27,26 @@ describe('functions', function() {
       };
     },
     makeClosures : function(arr, fun){
-
+      var funcs = [];
+      arr.forEach(function(item, i, arr){
+        funcs.push(function(){return fun(item)});
+      });
+      return funcs;
+    },
+    partial : function(fun, arg1, arg2){
+        return function(arg3){
+          return fun(arg1, arg2, arg3);
+        };
+    }, 
+    useArguments : function(){
+      var sum = 0;
+      for(let i = 0; i < arguments.length; i++){
+        sum += arguments[i];
+      };
+      return sum;
+    }, 
+    callIt : function(){
+      
     }
   };
 
@@ -61,6 +80,7 @@ describe('functions', function() {
     var square = function (x) { return x * x; };
 
     var funcs = functionsAnswers.makeClosures(arr, square);
+    
     expect(funcs).to.have.length(arr.length);
 
     for (var i = 0; i < arr.length; i++) {
@@ -79,7 +99,7 @@ describe('functions', function() {
     var b = Math.random();
     var c = Math.random();
     var d = Math.random();
-
+    console.log("a= "  + a);
     expect(functionsAnswers.useArguments(a)).to.eql(a);
     expect(functionsAnswers.useArguments(a, b)).to.eql(a + b);
     expect(functionsAnswers.useArguments(a, b, c)).to.eql(a + b + c);
